@@ -1,0 +1,42 @@
+{% extends "news_view/base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+
+<main role="main">
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% for new in news %}
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ new.title }}</text></svg>
+              <div class="card-body">
+                <center><p class="tags">Tags:
+                  {% for tag in new.tags.all %}
+                    <a href="{% url 'news_view:news_list_by_tag' tag.slug %}">
+                      {{ tag.name }}
+                    </a>
+                    {% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+                </p></center>
+                <p class="card-text">{{ new.news_content|truncatewords:40|linebreaks  }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ new.get_absolute_url }}"> Czytaj </a></button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edytuj</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{% url 'news_view:delete_news' new.news_id %}">Delete</a></button>
+
+                  </div>
+                  <small class="text-muted">{{ new.date_of_create }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "news_view/base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+  <center>
+    <h1>Edytowanie aktualnosci</h1>
+      Edytujesz : {{ news }}
+    <form action=" " method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br/>
+        <input type="submit" value="zaktualizuj" class="btn btn-secondary">
+    </form>
+  </center>
+{% endblock %}
+

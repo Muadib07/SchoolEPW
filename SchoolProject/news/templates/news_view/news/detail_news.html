@@ -1,0 +1,27 @@
+{% extends "news_view/base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+  <center>
+
+
+  <div class="container-fluid">
+
+
+      <div class="news_info">
+        <h1>{{news.title}}</h1><br/>
+        <p class="tags">Tags: {{ news.tags.all|join:", " }}</p><br/>
+        <h3>autor :  {{news.author}}</h3> <br/>
+        <h3>data utworzenia :  {{news.date_of_create}}</h3> <br/>
+        <h3>news id :  {{news.news_id}}</h3>
+
+      </div>
+      <div class="news">
+          test5 : {{news.news_content}}
+      </div>
+
+
+  </div>
+  </center>
+{% endblock %}
+
+

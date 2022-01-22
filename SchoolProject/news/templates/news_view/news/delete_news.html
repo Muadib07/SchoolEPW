@@ -1,0 +1,16 @@
+{% extends "news_view/base.html" %}
+
+{% block title %}Delete news{% endblock %}
+
+{% block content %}
+
+<center>
+    <form method="POST">
+        {% csrf_token %}
+        Are you want to delete this item ?
+        <input type="submit" value="Yes" />
+        <a href="/">Cancel </a>
+    </form>
+</center>
+
+{% endblock %}

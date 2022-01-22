@@ -1,0 +1,69 @@
+{% extends "news_view/base.html" %}
+{% load news_tags %}
+{% block title %}{% endblock %}
+{% block content %}
+
+{% if tag %}
+    <h2>Aktualności z tagiem "{{ tag.name }}"</h2>
+{% endif %}
+
+<main role="main">
+
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1>School News </h1>
+      <h1>Obecna liczba aktualności :  {% total_news %}</h1>
+
+      <form class="form-inline my-2 my-lg-0" action="{% url 'news_view:index' %}">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      <p>
+        <a href="#" class="btn btn-secondary my-2">Sortuj</a>
+      </p>
+    </div>
+  </section>
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% for new in news %}
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ new.title }}</text></svg>
+              <div class="card-body">
+                <center><p class="tags">Tags:
+                  {% for tag in new.tags.all %}
+                    <a href="{% url 'news_view:news_list_by_tag' tag.slug %}">
+                      {{ tag.name }}
+                    </a>
+                    {% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+                </p></center>
+                <p class="card-text">{{ new.news_content|truncatewords:40|linebreaks  }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ new.get_absolute_url }}"> Czytaj </a></button>
+                     {% if request.user.is_superuser or request.user.is_staff %}
+                       <button class="btn btn-sm btn-outline-secondary" type="button">
+                       <a href="{% url 'news_view:news_update' new.news_id %}">Edytuj</a>
+                      {% endif %}
+                      <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{% url 'news_view:delete_news' new.news_id %}">Usuń</a></button>
+
+
+
+                  </div>
+                  <small class="text-muted">{{ new.date_of_create }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{% include "pagination.html" with page=news %}
+
+{% endblock %}
